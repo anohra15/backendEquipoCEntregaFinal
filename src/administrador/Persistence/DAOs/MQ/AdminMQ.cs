@@ -5,7 +5,7 @@ using RabbitMQ.Client.Events;
 using System.Text;
 namespace administrador.Persistence.DAOs.MQ
 {
-    public class AseguradoMQ
+    public class AdminMQ
     {
         public void Producer(object message)
         {

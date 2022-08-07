@@ -1,5 +1,4 @@
-﻿using System;
-using administrador.Persistence.DAOs.MQ;
+﻿using administrador.Persistence.DAOs.MQ;
 
 namespace administrador.Commands.Atomics
 {
@@ -13,7 +12,7 @@ namespace administrador.Commands.Atomics
 
         public override void Execute()
         {
-            AseguradoMQ dao = AdministradorDAOFactory.createAseguradoMQ();
+            AdminMQ dao = AdministradorDAOFactory.createAdminMQ();
             dao.Producer(_response);
         }
 

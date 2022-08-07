@@ -1,14 +1,15 @@
 ﻿using administrador.BussinesLogic.DTOs;
 using administrador.Persistence.DAOs.Implementations;
+using administrador.Persistence.Entities;
 
 namespace administrador.Commands.Atomics.IncidentesDAO
 {
     public class createAccidentCommand : Command<string>
     {
-        private readonly IncidentesDTO _incidentes;
+        private readonly IncidentesEntity _incidentes;
         private string _result;
         
-        public createAccidentCommand(IncidentesDTO incidentes)
+        public createAccidentCommand(IncidentesEntity incidentes)
         {
             _incidentes = incidentes;
         }

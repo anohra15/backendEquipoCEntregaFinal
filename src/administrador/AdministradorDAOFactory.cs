@@ -31,9 +31,9 @@ namespace administrador
             return new PolizaDAO();
         }
 
-        public static AseguradoMQ createAseguradoMQ()
+        public static AdminMQ createAdminMQ()
         {
-            return new AseguradoMQ();
+            return new AdminMQ();
         }
     }
 }

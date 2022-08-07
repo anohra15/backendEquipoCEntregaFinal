@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using administrador.BussinesLogic.DTOs;
+using administrador.Commands.Atomics.PolizasDAO;
 using administrador.Exceptions;
 using administrador.Persistence.DAOs.Interfaces;
 using administrador.Responses;
@@ -29,7 +30,9 @@ namespace administrador.Controllers.Administrador
             var response = new ApplicationResponse<string>();
             try
             {
-                response.Data = _polizaDAO.createPoliza(policy);
+                var commandAddPolicy = new createPolizaCommand(policy);
+                commandAddPolicy.Execute();
+                response.Data = commandAddPolicy.GetResult();
             }
             catch (RCVExceptions ex)
             {
@@ -46,7 +49,9 @@ namespace administrador.Controllers.Administrador
             var response = new ApplicationResponse<Task<bool>>();
             try
             {
-                response.Data = _polizaDAO.deletePolicy(policy);
+                var commandDeletePolicy = new deletePolizaCommand(policy);
+                commandDeletePolicy.Execute();
+                response.Data = commandDeletePolicy.GetResult();
             }
             catch (RCVExceptions ex)
             {
@@ -64,7 +69,9 @@ namespace administrador.Controllers.Administrador
             var response = new ApplicationResponse<List<PolizaAseguradoDTO>>();
             try
             {
-                response.Data = _polizaDAO.getPolicyInsured(ci);
+                var commandGetPolicy = new getPolizaInsuredCommand(ci);
+                commandGetPolicy.Execute();
+                response.Data = commandGetPolicy.GetResult();
             }
             catch (RCVExceptions ex)
             {
