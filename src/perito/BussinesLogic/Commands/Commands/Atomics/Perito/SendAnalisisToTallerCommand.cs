@@ -3,22 +3,23 @@ using perito.Persistence.DAOs.MQ;
 
 namespace perito.Commands.Atomics.Perito{
 
-    public class SendAnalisisToTallerCommand : Command<AnalisisDTO>
+    public class SendAnalisisToTallerCommand : Command<string>
     {
-        private readonly AnalisisDTO _analisis;
+        private readonly Guid _response;
+        
 
-            public SendAnalisisToTallerCommand(AnalisisDTO analisis)
+            public SendAnalisisToTallerCommand(Guid response)
             {
-                _analisis = analisis;
+                _response = response;
             }
 
             public override void Execute()
             {
                 AnalisisMQ dao = PeritoDAOFactory.createAnalisisMQ();
-                dao.Producer(_analisis);
+                dao.Producer(_response);
             }
 
-            public override AnalisisDTO GetResult()
+            public override string GetResult()
             {
                 throw new NotImplementedException();
             }
