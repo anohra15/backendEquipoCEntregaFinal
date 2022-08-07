@@ -11,9 +11,9 @@ namespace perito.Commands
         {
             return new InsertAnalisisCommand(analisis);
         }
-        public static SendAnalisisToTallerCommand createSendPeritoCommand(AnalisisDTO analisis)
+        public static SendAnalisisToTallerCommand createSendPeritoCommand(Guid response)
         {
-            return new SendAnalisisToTallerCommand(analisis);
+            return new SendAnalisisToTallerCommand(response);
         }
     }
 }
