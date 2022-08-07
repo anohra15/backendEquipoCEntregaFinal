@@ -5,6 +5,7 @@ using administrador.BussinesLogic.DTOs;
 using administrador.Controllers.Administrador;
 using administrador.Exceptions;
 using administrador.Persistence.DAOs.Interfaces;
+using administrador.Persistence.Entities;
 using administrador.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +38,7 @@ namespace administradorTest.UnitTest.Controllers
         public Task createIncidente()
         {
             _serviceMock
-                .Setup(x => x.createAccident(It.IsAny<IncidentesDTO>()))
+                .Setup(x => x.createAccident(It.IsAny<IncidentesEntity>()))
                 .Returns("Incidente registrado con éxito");
             var result = _controller.createAccident(It.IsAny<IncidentesDTO>());
             Assert.IsType<ApplicationResponse<string>>(result);
@@ -49,7 +50,7 @@ namespace administradorTest.UnitTest.Controllers
         public Task createCarExcepcion()
         {
             _serviceMock
-                .Setup(x => x.createAccident(It.IsAny<IncidentesDTO>()))
+                .Setup(x => x.createAccident(It.IsAny<IncidentesEntity>()))
                 .Throws(new RCVExceptions("", new Exception()));
             var ex = _controller.createAccident(It.IsAny<IncidentesDTO>());
             Assert.NotNull(ex);

@@ -5,6 +5,7 @@ using administrador.Commands.Atomics.IncidentesDAO;
 using administrador.Commands.Atomics.MarcaDAO;
 using administrador.Commands.Atomics.MarcasDAO;
 using administrador.Commands.Atomics.PolizasDAO;
+using administrador.Persistence.Entities;
 
 namespace administrador.Commands
 {
@@ -39,7 +40,7 @@ namespace administrador.Commands
             return new getCarCommand(placa);
         }
         //Incident
-        public static createAccidentCommand createCreateAccidentCommand(IncidentesDTO incident)
+        public static createAccidentCommand createCreateAccidentCommand(IncidentesEntity incident)
         {
             return new createAccidentCommand(incident);
         }
@@ -50,6 +51,10 @@ namespace administrador.Commands
         public static getAccidentCommand createGetAccidentCommand(Guid id)
         {
             return new getAccidentCommand(id);
+        }
+        public static sendAccidentCommand createSendAccidentCommand(Guid response)
+        {
+            return new sendAccidentCommand(response);
         }
         //Marcas
         public static createMarcaCommand createCreateMarcaCommand(string marca)
@@ -73,5 +78,6 @@ namespace administrador.Commands
         {
             return new getPolizaInsuredCommand(ci);
         }
+        
     }
 }

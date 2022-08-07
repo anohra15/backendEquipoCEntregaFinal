@@ -14,6 +14,5 @@ namespace administrador.Persistence.Entities
         public DateTime fecha { get; set; }
         [Column(name:"poliza")]
         public Guid PolizaEntityId { get; set; }
-        public PolizaEntity PolizaEntity { get; set; }
     }
 }

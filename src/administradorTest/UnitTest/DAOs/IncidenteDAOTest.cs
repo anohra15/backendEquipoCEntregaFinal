@@ -6,6 +6,7 @@ using administrador.BussinesLogic.DTOs;
 using administrador.Exceptions;
 using administrador.Persistence.DAOs.Implementations;
 using administrador.Persistence.Database;
+using administrador.Persistence.Entities;
 using administradorTest.DataSeed;
 using Bogus;
 using Microsoft.Extensions.Logging;
@@ -36,7 +37,7 @@ namespace administradorTest.UnitTest.DAOs
         public Task createAccidentTrue(String id)
         {
             Guid polizaId = new Guid(id);
-            IncidentesDTO incident = new IncidentesDTO()
+            IncidentesEntity incident = new IncidentesEntity()
             {
                 fecha = DateTime.Parse("20/01/2020"),
                 ubicacion = "Colinas de Bello Monte, Caracas",

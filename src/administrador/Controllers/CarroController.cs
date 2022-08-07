@@ -1,4 +1,5 @@
 ﻿using administrador.BussinesLogic.DTOs;
+using administrador.Commands.Atomics;
 using administrador.Exceptions;
 using administrador.Persistence.DAOs.Interfaces;
 using administrador.Responses;
@@ -26,7 +27,9 @@ namespace administrador.Controllers.Administrador
             var response = new ApplicationResponse<string>();
             try
             {
-                response.Data = _carroDAO.createCar(car);
+                var commandAddCar = new createCarCommand(car);
+                commandAddCar.Execute();
+                response.Data = commandAddCar.GetResult();
             }
             catch (RCVExceptions ex)
             {
@@ -44,7 +47,9 @@ namespace administrador.Controllers.Administrador
             var response = new ApplicationResponse<CarroDTO>();
             try
             {
-                response.Data = _carroDAO.getCar(placa);
+                var commandGetCar = new getCarCommand(placa);
+                commandGetCar.Execute();
+                response.Data = commandGetCar.GetResult();
             }
             catch (RCVExceptions ex)
             {

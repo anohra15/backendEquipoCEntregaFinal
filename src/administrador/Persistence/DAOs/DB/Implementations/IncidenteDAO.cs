@@ -23,18 +23,11 @@ namespace administrador.Persistence.DAOs.Implementations
         }
         
         /*--------------------------Crea un incidente-----------------------------*/
-        public string createAccident(IncidentesDTO incident)
+        public string createAccident(IncidentesEntity incident)
         {
             try
             {
-                this.incident = new IncidentesEntity()
-                {
-                    descripcion = incident.descripcion,
-                    ubicacion = incident.ubicacion,
-                    fecha = incident.fecha,
-                    PolizaEntityId = incident.PolizaEntityId
-                };
-                _context.incident.Add(this.incident);
+                _context.incident.Add(incident);
                 _context.DbContext.SaveChanges();
                 return "Incidente registrado con éxito";
             }

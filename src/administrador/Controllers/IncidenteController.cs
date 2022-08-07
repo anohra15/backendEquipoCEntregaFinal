@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using administrador.BussinesLogic.DTOs;
+using administrador.BussinesLogic.Mappers;
+using administrador.Commands;
+using administrador.Commands.Atomics.IncidentesDAO;
 using administrador.Exceptions;
 using administrador.Persistence.DAOs.Interfaces;
 using administrador.Responses;
@@ -28,7 +31,10 @@ namespace administrador.Controllers.Administrador
             var response = new ApplicationResponse<string>();
             try
             {
-                response.Data = _incidenteDAO.createAccident(incidente);
+                var entityAcident = IncidentMapper.mapDtoToEntity(incidente);
+                createAccidentCommand commandAddIncident = CommandFactory.createCreateAccidentCommand(entityAcident);
+                commandAddIncident.Execute();
+                response.Data = commandAddIncident.GetResult();
             }
             catch (RCVExceptions ex)
             {
@@ -45,7 +51,9 @@ namespace administrador.Controllers.Administrador
             var response = new ApplicationResponse<List<IncidentesSimpleDTO>>();
             try
             {
-                response.Data = _incidenteDAO.getAccident(id);
+                var commandGetIncident = new getAccidentCommand(id);
+                commandGetIncident.Execute();
+                response.Data = commandGetIncident.GetResult();
             }
             catch (RCVExceptions ex)
             {
@@ -63,7 +71,9 @@ namespace administrador.Controllers.Administrador
             var response = new ApplicationResponse<string>();
             try
             {
-                response.Data = _incidenteDAO.deleteAccident(id);
+                var commandDeleteIncident = new deleteAccidentCommand(id);
+                commandDeleteIncident.Execute();
+                response.Data = commandDeleteIncident.GetResult();
             }
             catch (RCVExceptions ex)
             {
