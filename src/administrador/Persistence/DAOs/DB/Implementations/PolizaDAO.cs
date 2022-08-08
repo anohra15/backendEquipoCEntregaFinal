@@ -18,18 +18,10 @@ namespace administrador.Persistence.DAOs.Implementations
         }
         
         /*Crea una poliza con su tipo: Completa/Parcial*/
-        public string createPoliza(PolizaSimpleDTO poliza)
+        public string createPoliza(PolizaEntity poliza)
         {
             try{
-                var policy = new PolizaEntity(){
-                    tipo = poliza.tipo,
-                    vencimiento = poliza.vencimiento,
-                    precio = poliza.precio,
-                    cobertura = poliza.cobertura,
-                    AseguradoEntityId = poliza.asegurado,
-                    CarrosEntityId = poliza.placa
-                };
-                _context.poliza.Add(policy);
+                _context.poliza.Add(poliza);
                 _context.DbContext.SaveChanges();
                 return "Poliza creada con éxito"; 
             }

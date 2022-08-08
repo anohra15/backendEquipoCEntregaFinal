@@ -9,6 +9,7 @@ using administradorTest.DataSeed;
 using System.Linq;
 using System.Threading.Tasks;
 using administrador.BussinesLogic.DTOs;
+using administrador.BussinesLogic.Mappers;
 using administrador.Persistence.Entities;
 using Xunit;
 using PolizaDAO = administrador.Persistence.DAOs.Implementations.PolizaDAO;
@@ -41,7 +42,7 @@ namespace administradorTest.UnitTest.DAOs
                 vencimiento = DateTime.Parse("20/01/2020"),
                 asegurado = 25872770
             };
-            var result = _dao.createPoliza(policy);
+            var result = _dao.createPoliza(PolizaMapper.mapDtoToEntity(policy));
             Assert.Equal("Poliza creada con éxito",result);
             _contextMock.Verify(m => m.DbContext.SaveChanges(), Times.Exactly(1));
             return Task.CompletedTask;

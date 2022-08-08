@@ -5,6 +5,7 @@ using administrador.BussinesLogic.DTOs;
 using administrador.Controllers.Administrador;
 using administrador.Persistence.DAOs.Interfaces;
 using administrador.Exceptions;
+using administrador.Persistence.Entities;
 using administrador.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,8 @@ namespace administradorTest.UnitTest.Controllers
         private readonly PolizaController _controller;
         private readonly Mock<IPolizaDAO> _serviceMock;
         private readonly Mock<ILogger<PolizaController>> _loggerMock;
-        public PolizaSimpleDTO poliza = It.IsAny<PolizaSimpleDTO>();
+        public PolizaEntity poliza = It.IsAny<PolizaEntity>();
+        public PolizaSimpleDTO _poliza = It.IsAny<PolizaSimpleDTO>();
         public Guid idGuid = new Guid();
         public int cedula = It.IsAny<int>();
         
@@ -27,7 +29,7 @@ namespace administradorTest.UnitTest.Controllers
         {
             _loggerMock = new Mock<ILogger<PolizaController>>();
             _serviceMock = new Mock<IPolizaDAO>();
-            _controller = new PolizaController(_loggerMock.Object, _serviceMock.Object);
+            _controller = new PolizaController(_loggerMock.Object);
             _controller.ControllerContext = new ControllerContext();
             _controller.ControllerContext.HttpContext = new DefaultHttpContext();
             _controller.ControllerContext.ActionDescriptor = new ControllerActionDescriptor();
@@ -41,7 +43,7 @@ namespace administradorTest.UnitTest.Controllers
             _serviceMock
                 .Setup(x => x.createPoliza(poliza))
                 .Returns("Poliza creada con éxito");
-            var result = _controller.addPolicy(poliza);
+            var result = _controller.addPolicy(_poliza);
             Assert.IsType<ApplicationResponse<string>>(result);
             return Task.CompletedTask;
         }
@@ -53,7 +55,7 @@ namespace administradorTest.UnitTest.Controllers
             _serviceMock
                 .Setup(x => x.createPoliza(poliza))
                 .Throws(new RCVExceptions("No se puede crear la poliza", new Exception()));
-            var ex = _controller.addPolicy(poliza);
+            var ex = _controller.addPolicy(_poliza);
             Assert.NotNull(ex);
             Assert.False(ex.Success);
             return Task.CompletedTask;

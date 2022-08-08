@@ -13,7 +13,7 @@ namespace administrador.Commands
     public class CommandFactory
     {
         //Asegurado
-        public static createInsuredCommand createCreateInsuredCommand(AseguradoDTO insured)
+        public static createInsuredCommand createCreateInsuredCommand(AseguradoEntity insured)
         {
             return new createInsuredCommand(insured);
         }
@@ -71,7 +71,7 @@ namespace administrador.Commands
             return new getMarcaCommand(marca);
         }
         //Polizas
-        public static createPolizaCommand createCreatePolizaCommand(PolizaSimpleDTO poliza)
+        public static createPolizaCommand createCreatePolizaCommand(PolizaEntity poliza)
         {
             return new createPolizaCommand(poliza);
         }

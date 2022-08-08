@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using administrador.BussinesLogic.DTOs;
+using administrador.BussinesLogic.Mappers;
+using administrador.Commands;
 using administrador.Commands.Atomics.PolizasDAO;
 using administrador.Exceptions;
 using administrador.Persistence.DAOs.Interfaces;
@@ -18,9 +20,8 @@ namespace administrador.Controllers.Administrador
         private readonly IPolizaDAO _polizaDAO;
         private readonly ILogger<PolizaController> _logger;
 
-        public PolizaController(ILogger<PolizaController> logger, IPolizaDAO polizaDAO)
+        public PolizaController(ILogger<PolizaController> logger)
         {
-            _polizaDAO = polizaDAO;
             _logger = logger;
         }
         
@@ -30,7 +31,8 @@ namespace administrador.Controllers.Administrador
             var response = new ApplicationResponse<string>();
             try
             {
-                var commandAddPolicy = new createPolizaCommand(policy);
+                var entityPoliza = PolizaMapper.mapDtoToEntity(policy);
+                createPolizaCommand commandAddPolicy = CommandFactory.createCreatePolizaCommand(entityPoliza);
                 commandAddPolicy.Execute();
                 response.Data = commandAddPolicy.GetResult();
             }
@@ -49,7 +51,7 @@ namespace administrador.Controllers.Administrador
             var response = new ApplicationResponse<Task<bool>>();
             try
             {
-                var commandDeletePolicy = new deletePolizaCommand(policy);
+                deletePolizaCommand commandDeletePolicy = CommandFactory.createDeletePolizaCommand(policy);
                 commandDeletePolicy.Execute();
                 response.Data = commandDeletePolicy.GetResult();
             }
@@ -69,7 +71,7 @@ namespace administrador.Controllers.Administrador
             var response = new ApplicationResponse<List<PolizaAseguradoDTO>>();
             try
             {
-                var commandGetPolicy = new getPolizaInsuredCommand(ci);
+                getPolizaInsuredCommand commandGetPolicy = CommandFactory.createGetPolizaInsuredCommand(ci);
                 commandGetPolicy.Execute();
                 response.Data = commandGetPolicy.GetResult();
             }

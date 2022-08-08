@@ -24,10 +24,10 @@ namespace administrador.Persistence.Migrations
                     primer_a = table.Column<string>(type: "text", nullable: false),
                     segundo_a = table.Column<string>(type: "text", nullable: false),
                     sexo = table.Column<char>(type: "character(1)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: false)
+                    UpdatedBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -100,10 +100,10 @@ namespace administrador.Persistence.Migrations
                     fabricacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     segmento = table.Column<string>(type: "text", nullable: true),
                     color = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "text", nullable: false)
+                    UpdatedBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -153,7 +153,7 @@ namespace administrador.Persistence.Migrations
                     precio = table.Column<int>(type: "integer", nullable: false),
                     cobertura = table.Column<int>(type: "integer", nullable: false),
                     dni = table.Column<int>(type: "integer", nullable: false),
-                    placa = table.Column<string>(type: "text", nullable: false),
+                    placa = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -172,8 +172,7 @@ namespace administrador.Persistence.Migrations
                         name: "FK_poliza_cars_placa",
                         column: x => x.placa,
                         principalTable: "cars",
-                        principalColumn: "placa",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "placa");
                 });
 
             migrationBuilder.CreateIndex(

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using administrador;
 using administrador.BussinesLogic.DTOs;
+using administrador.Persistence.Entities;
 using Xunit;
 using AseguradoDAO = administrador.Persistence.DAOs.Implementations.AseguradoDAO;
 
@@ -72,7 +73,7 @@ namespace administradorTest.UnitTest.DAOs
         [InlineData(25872771)] 
         public Task CreateInsureTrue(int dni)
         {
-            AseguradoDTO insured = new AseguradoDTO()
+            AseguradoEntity insured = new AseguradoEntity()
             {
                 ci = dni,
                 primer_n = "Adrián",

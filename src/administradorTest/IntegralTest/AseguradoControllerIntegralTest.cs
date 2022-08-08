@@ -28,7 +28,7 @@ public class AseguradoControllerIntegralTest
     {
         _loggerMock = new Mock<ILogger<AseguradoController>>();
         _serviceMock = new Mock<IAseguradoDAO>();
-        _controller = new AseguradoController(_loggerMock.Object, _serviceMock.Object);
+        _controller = new AseguradoController(_loggerMock.Object);
         _controller.ControllerContext = new ControllerContext();
         _controller.ControllerContext.HttpContext = new DefaultHttpContext();
         _controller.ControllerContext.ActionDescriptor = new ControllerActionDescriptor();
@@ -47,6 +47,15 @@ public class AseguradoControllerIntegralTest
         var aseguradoDTOFaker = faker.Generate();
         var result = _controller.addInsured(aseguradoDTOFaker);
         Assert.Equal("Éxitoso", result.Data);
+        return Task.CompletedTask;
+    }
+    
+    [Theory(DisplayName = "Get insured")]
+    [InlineData(11889533)] 
+    public Task getInsured(int ci)
+    {
+        var result = _controller.getInsuredSpecific(ci);
+        Assert.IsType<ApplicationResponse<PAseguradoDTO>>(result);
         return Task.CompletedTask;
     }
 }

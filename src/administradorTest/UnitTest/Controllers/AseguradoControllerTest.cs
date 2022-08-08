@@ -5,6 +5,7 @@ using administrador.BussinesLogic.DTOs;
 using administrador.Controllers.Administrador;
 using administrador.Persistence.DAOs.Interfaces;
 using administrador.Exceptions;
+using administrador.Persistence.Entities;
 using administrador.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,8 @@ namespace administradorTest.UnitTest.Controllers
         private readonly AseguradoController _controller;
         private readonly Mock<IAseguradoDAO> _serviceMock;
         private readonly Mock<ILogger<AseguradoController>> _loggerMock;
-        public AseguradoDTO asegurado = It.IsAny<AseguradoDTO>();
+        public AseguradoEntity asegurado = It.IsAny<AseguradoEntity>();
+        public AseguradoDTO aseguradoDTO = It.IsAny<AseguradoDTO>();
         public PAseguradoDTO aseguradoSimple = It.IsAny<PAseguradoDTO>();
         public int cedula = It.IsAny<int>();
     
@@ -27,7 +29,7 @@ namespace administradorTest.UnitTest.Controllers
         {
             _loggerMock = new Mock<ILogger<AseguradoController>>();
             _serviceMock = new Mock<IAseguradoDAO>();
-            _controller = new AseguradoController(_loggerMock.Object, _serviceMock.Object);
+            _controller = new AseguradoController(_loggerMock.Object);
             _controller.ControllerContext = new ControllerContext();
             _controller.ControllerContext.HttpContext = new DefaultHttpContext();
             _controller.ControllerContext.ActionDescriptor = new ControllerActionDescriptor();
@@ -41,7 +43,7 @@ namespace administradorTest.UnitTest.Controllers
             _serviceMock
                 .Setup(x => x.createInsured(asegurado))
                 .Returns("Éxitoso");
-            var result = _controller.addInsured(asegurado);
+            var result = _controller.addInsured(aseguradoDTO);
             Assert.IsType<ApplicationResponse<string>>(result);
             return Task.CompletedTask;
         }
@@ -53,7 +55,7 @@ namespace administradorTest.UnitTest.Controllers
             _serviceMock
                 .Setup(x => x.createInsured(asegurado))
                 .Throws(new RCVExceptions("No se puede crear, detalles: ", new Exception()));
-            var ex = _controller.addInsured(asegurado);
+            var ex = _controller.addInsured(aseguradoDTO);
             Assert.NotNull(ex);
             Assert.False(ex.Success);
             return Task.CompletedTask;

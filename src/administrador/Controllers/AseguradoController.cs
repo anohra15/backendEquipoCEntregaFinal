@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using administrador.BussinesLogic.DTOs;
+using administrador.BussinesLogic.Mappers;
+using administrador.Commands;
 using administrador.Commands.Atomics;
 using administrador.Exceptions;
 using administrador.Persistence.DAOs.Interfaces;
@@ -13,9 +15,8 @@ namespace administrador.Controllers.Administrador
         private readonly IAseguradoDAO _aseguradoDAO;
         private readonly ILogger<AseguradoController> _logger;
 
-        public AseguradoController(ILogger<AseguradoController> logger, IAseguradoDAO insuredDAO)
+        public AseguradoController(ILogger<AseguradoController> logger)
         {
-            _aseguradoDAO = insuredDAO;
             _logger = logger;
         }
         
@@ -25,9 +26,10 @@ namespace administrador.Controllers.Administrador
             var response = new ApplicationResponse<string>();
             try
             {
-                var commandAddInsured = new createInsuredCommand(insured);
-                commandAddInsured.Execute();
-                response.Data = commandAddInsured.GetResult();
+                var entityAsegurado = AseguradoMapper.mapDtoToEntity(insured);
+                createInsuredCommand commandAddIncident = CommandFactory.createCreateInsuredCommand(entityAsegurado);
+                commandAddIncident.Execute();
+                response.Data = commandAddIncident.GetResult();
             }
             catch (RCVExceptions ex)
             {
@@ -38,13 +40,13 @@ namespace administrador.Controllers.Administrador
             return response;
         }
         
-        [HttpPost("Consultar-Todos")]
+        [HttpGet("Consultar-Todos")]
         public ApplicationResponse<List<PAseguradoDTO>> getInsuredAll()
         {
             var response = new ApplicationResponse<List<PAseguradoDTO>>();
             try
             {
-                var commandGetAllInsured = new getInsuredAllCommand();
+                getInsuredAllCommand commandGetAllInsured = CommandFactory.createGetInsuredAllCommand();
                 commandGetAllInsured.Execute();
                 response.Data = commandGetAllInsured.GetResult();
             }
@@ -64,7 +66,7 @@ namespace administrador.Controllers.Administrador
             var response = new ApplicationResponse<PAseguradoDTO>();
             try
             {
-                var commandGetInsured = new getInsuredCommand(ci);
+                getInsuredCommand commandGetInsured = CommandFactory.createGetInsuredCommand(ci);
                 commandGetInsured.Execute();
                 response.Data = commandGetInsured.GetResult();
             }

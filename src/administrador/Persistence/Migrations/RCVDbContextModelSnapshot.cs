@@ -31,18 +31,16 @@ namespace administrador.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ci"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("primer_a")
@@ -74,11 +72,10 @@ namespace administrador.Persistence.Migrations
                     b.Property<string>("placa")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid>("MarcaEntityId")
@@ -89,7 +86,6 @@ namespace administrador.Persistence.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("color")
@@ -241,7 +237,6 @@ namespace administrador.Persistence.Migrations
                         .HasColumnName("dni");
 
                     b.Property<string>("CarrosEntityId")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("placa");
 
@@ -349,9 +344,7 @@ namespace administrador.Persistence.Migrations
 
                     b.HasOne("administrador.Persistence.Entities.CarrosEntity", "CarrosEntity")
                         .WithMany()
-                        .HasForeignKey("CarrosEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CarrosEntityId");
 
                     b.Navigation("AseguradoEntity");
 

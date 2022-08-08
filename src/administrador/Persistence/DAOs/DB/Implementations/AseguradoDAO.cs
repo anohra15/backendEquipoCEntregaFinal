@@ -34,23 +34,15 @@ namespace administrador.Persistence.DAOs.Implementations
         }
         
         /*Me permite crear un asegurado*/
-        public string createInsured(AseguradoDTO insured)
+        public string createInsured(AseguradoEntity insured)
         {
             int i;
             bool validacion = valiacion(insured.ci);
             if (validacion == false) // si no existe
             {
                 try{
-                    var asegurado = new AseguradoEntity{
-                        ci = insured.ci, 
-                        primer_n = insured.primer_n, 
-                        segundo_n = insured.segundo_n,
-                        primer_a = insured.primer_a,
-                        segundo_a = insured.segundo_a,
-                        sexo = insured.sexo,
-                    };
-                    var data =_context.asegurado.Add(asegurado);
-                    i = _context.DbContext.SaveChanges();
+                    _context.asegurado.Add(insured);
+                    _context.DbContext.SaveChanges();
                     return "Éxitoso";
                 }
                 catch(Exception ex){

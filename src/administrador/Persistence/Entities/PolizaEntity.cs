@@ -23,7 +23,7 @@ namespace administrador.Persistence.Entities
         public int AseguradoEntityId { get; set; }
         public AseguradoEntity AseguradoEntity { get; set; }
         [Column(name:"placa")]
-        public String CarrosEntityId { get; set; }
-        public CarrosEntity CarrosEntity { get; set; }
+        public String? CarrosEntityId { get; set; }
+        public CarrosEntity? CarrosEntity { get; set; }
     }
 }

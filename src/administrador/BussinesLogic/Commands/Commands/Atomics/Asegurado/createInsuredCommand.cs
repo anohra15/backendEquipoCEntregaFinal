@@ -1,14 +1,15 @@
 ﻿using administrador.BussinesLogic.DTOs;
 using administrador.Persistence.DAOs.Implementations;
+using administrador.Persistence.Entities;
 
 namespace administrador.Commands.Atomics
 {
     public class createInsuredCommand : Command<string>
     {
-        private readonly AseguradoDTO _insured;
+        private readonly AseguradoEntity _insured;
         private string _result;
         
-        public createInsuredCommand(AseguradoDTO insured)
+        public createInsuredCommand(AseguradoEntity insured)
         {
             _insured = insured;
         }

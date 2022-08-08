@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using administrador.BussinesLogic.DTOs;
 using administrador.Persistence.DAOs.Implementations;
+using administrador.Persistence.Entities;
 
 namespace administrador.Commands.Atomics.PolizasDAO
 {
     public class createPolizaCommand : Command<string>
     {
-        private readonly PolizaSimpleDTO _poliza;
+        private readonly PolizaEntity _poliza;
         private string _result;
             
-        public createPolizaCommand(PolizaSimpleDTO poliza)
+        public createPolizaCommand(PolizaEntity poliza)
         {
             _poliza = poliza;
         }
