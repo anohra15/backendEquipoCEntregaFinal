@@ -3,7 +3,9 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
+using administrador.BussinesLogic.DTOs;
 namespace administrador.Persistence.DAOs.MQ
+
 {
     public class AdminMQ
     {
@@ -34,10 +36,12 @@ namespace administrador.Persistence.DAOs.MQ
 
         public string Consumer()
         {
+            PagosDTO a=new PagosDTO();
             string response = "";
             try
             {
                 AppSettings config = new AppSettings();
+                
                 var factory = new ConnectionFactory()
                 {
                     Uri = new Uri(config.MQConnectionString)
@@ -55,7 +59,7 @@ namespace administrador.Persistence.DAOs.MQ
                     {
                         var body = ea.Body.ToArray();
                         var message = Encoding.UTF8.GetString(body);
-                        response = message;
+                        a.lt=message;
                     };
                     channel.BasicConsume(queue: config.QueueString,
                                          autoAck: true,
@@ -67,7 +71,7 @@ namespace administrador.Persistence.DAOs.MQ
             {
                 throw;
             }
-            return response;
+            return a.lt;
         }
     }
 }

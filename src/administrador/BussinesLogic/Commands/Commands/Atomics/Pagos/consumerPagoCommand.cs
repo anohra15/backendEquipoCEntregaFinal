@@ -15,7 +15,8 @@ public class consumerPagoCommand : Command<PagosDTO>
     public override void Execute()
     {
         AdminMQ dao = AdministradorDAOFactory.createAdminMQ();
-        _response = JsonConvert.DeserializeObject<PagosDTO>(dao.Consumer());
+        string st=dao.Consumer();
+        _response = JsonConvert.DeserializeObject<PagosDTO>(st);
     }
 
     public override PagosDTO GetResult()

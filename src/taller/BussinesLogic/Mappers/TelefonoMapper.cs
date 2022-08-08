@@ -28,10 +28,10 @@ namespace RCVUcabBackend.BussinesLogic.Mappers
                     listaTelefonosEntity.Add(new TelefonoEntity{
                         codigo_area=telefonoDTO.codigo_area,
                         numero_telefono=telefonoDTO.numero_telefono,
-                        CreatedAt=DateTime.Now,
-                        CreatedBy="a",
-                        UpdatedAt=DateTime.Now,
-                        UpdatedBy="a"
+                        CreatedAt=null,
+                        CreatedBy=null,
+                        UpdatedAt=null,
+                        UpdatedBy=null
                     });
                 }
                 return listaTelefonosEntity;

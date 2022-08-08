@@ -15,7 +15,7 @@ namespace RCVUcabBackend.BussinesLogic.Mappers{
                 idTaller=dto.usuario_taller.taller.Id,
                 fecha_inicio=fechaInicio,
                 fecha_culminacion=fechaCulminacion,
-                costo_reparacion=dto.costo_reparacion
+                costo_reparacion=(int) dto.costo_reparacion
             };
             return cotizacionMQ;
         }

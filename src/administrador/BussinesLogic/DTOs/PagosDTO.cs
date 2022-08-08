@@ -2,9 +2,10 @@
 
 public class PagosDTO
 {
+    public string lt;
     public Guid idAnalisis {get; set;}
     public Guid idTaller {get; set;}
-    public DateTime fechaInicio {get; set;}
-    public DateTime fechaFin {get; set;}
-    public int costo {get; set;}
+    public string fecha_inicio {get; set;}
+    public string fecha_culminacion {get; set;}
+    public int costo_reparacion {get; set;}
 }

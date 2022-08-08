@@ -12,6 +12,6 @@ namespace RCVUcabBackend.BussinesLogic.DTOs.DTOMQ
 
     public string fecha_inicio{get;set;}
     public string fecha_culminacion{get;set;}
-    public double costo_reparacion { get; set; }
+    public int costo_reparacion { get; set; }
     }
 }

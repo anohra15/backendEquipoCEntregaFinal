@@ -14,7 +14,7 @@ namespace RCVUcabBackend.BussinesLogic.Mappers{
                 RIF=dto.RIF,
                 estado=0,
                 marcas=MarcaMapper.MapListDtoToListEntity(dto.Marcac_Carros),
-                CreatedAt=Convert.ToDateTime(DateTime.Now.ToString()),
+                CreatedAt=null,
                 UsuariosTaller=null
 
             };
