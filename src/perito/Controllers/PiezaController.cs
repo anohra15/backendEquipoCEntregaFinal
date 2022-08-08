@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using perito.BussinesLogic.DTOs;
+using perito.BussinesLogic.Mappers;
+using perito.Commands;
+using perito.Commands.Atomics.Perito;
 using perito.Exceptions;
 using perito.Persistence.DAOs.Interfaces;
 using perito.Responses;
@@ -27,22 +30,20 @@ namespace perito.Controllers.Perito
 
             [HttpPost("create/pieza")]
 
-            public ApplicationResponse<PiezaDTO> createPieza([Required] [FromBody] PiezaDTO piezaDTO)
+            public string createPieza([Required] [FromBody] PiezaDTO piezaDTO)
             {
-                var response = new ApplicationResponse<PiezaDTO>();
                 try
                 {
-                   // response.DataInsert = _piezaDAO.CreatePieza(piezaDTO);
-                    response.Message = "se registro exitosamente";
-                    response.Data = piezaDTO;
+                    var piezaEntidad=PiezaMapper.MapDtoToEntity(piezaDTO);
+                    InsertPiezaCommand command=CommandFactory.createCreatePiezaCommand(piezaEntidad);
+                    command.Execute();
+                    Console.WriteLine(command.GetResult());
+                    return "exito";   
                 }
                 catch (RCVExceptions ex)
                 {
-                    response.Success = false;
-                    response.Message = ex.Message;
+                    return ex.Message;
                 }
-
-                return response;
             }
 
             [HttpPut("actualizar/pieza/{id_pieza}")]
@@ -82,6 +83,25 @@ namespace perito.Controllers.Perito
                 }
 
                 return ressponse;
+            }
+            
+            [HttpPost("Consultar-pieza")]
+            public ApplicationResponse<PiezaDTO> getPieza([FromBody] Guid id)
+            {
+                var response = new ApplicationResponse<PiezaDTO>();
+                try
+                {
+                    var commandGetPieza = new getPiezaCommand(id);
+                    commandGetPieza.Execute();
+                    response.Data = commandGetPieza.GetResult();
+                }
+                catch (RCVExceptions ex)
+                {
+                    response.Success = false;
+                    response.Message = ex.Message;
+                    response.Exception = ex.Excepcion.ToString();
+                }
+                return response;
             }
 
             

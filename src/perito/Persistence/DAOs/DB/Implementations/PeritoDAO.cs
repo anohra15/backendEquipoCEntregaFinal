@@ -45,7 +45,7 @@ namespace perito.Persistence.DAOs.Implementations
             return false;
         }
         
-        public bool validarExistenciaPerito(IRCVDbContext context,PeritoDTO peritoValidar)
+        public bool validarExistenciaPerito(IRCVDbContext context,UsuarioPeritoEntity peritoValidar)
         {
             if (context.peritos.Any(x => x.nombres == peritoValidar.nombres && 
                                           x.apellidos.Equals(peritoValidar.apellidos) &&
@@ -73,7 +73,7 @@ namespace perito.Persistence.DAOs.Implementations
             this.Perito.UpdatedBy = null;
         }
 
-        public PeritoDTO CreatePerito(PeritoDTO peritonew)
+        public PeritoDTO CreatePerito(UsuarioPeritoEntity peritonew)
         {
             var i = 0;
             try
@@ -98,10 +98,9 @@ namespace perito.Persistence.DAOs.Implementations
                 }
                 else
                 {
-                    crearPeritoEntity(peritonew);
-                    var data = _context.peritos.Add(this.Perito);
+                    var data = _context.peritos.Add(peritonew);
                     i = _context.DbContext.SaveChanges();
-                    /*var dataRespuesta = _context.peritos.Include(perito=>perito).Where(perito => perito.Id.Equals(peritonew.Id))
+                    var dataRespuesta = _context.peritos.Include(perito=>perito).Where(perito => perito.Id.Equals(peritonew.Id))
                         .Select(perito => new PeritoDTO
                         {
                             nombres = perito.nombres,
@@ -109,7 +108,7 @@ namespace perito.Persistence.DAOs.Implementations
                             email = perito.email,
                             contrasena = perito.contrasena,
                         });
-                    return dataRespuesta.First();*/
+                    return dataRespuesta.First();
                 }
             }
             catch (Exception ex)
@@ -117,7 +116,6 @@ namespace perito.Persistence.DAOs.Implementations
                 throw new RCVExceptions(mensajeError);
             }
 
-            return peritonew;
         }
 
 
@@ -148,7 +146,29 @@ namespace perito.Persistence.DAOs.Implementations
             return "Se elimino exitosamente";
         }
         
-        /*public PeritoDTO ActualizarPerito(UsuarioPeritoEntity peritoCambios,Guid id_perito)
+        public PeritoDTO getPerito(Guid id)
+        {
+            try
+            {
+                var peritos = _context.peritos
+                    .Where(b => b.Id == id)
+                    .Select(p => new PeritoDTO
+                    {
+                        
+                        nombres = p.nombres
+                    });
+                if(peritos == null){
+                    throw new Exception("No existe ese perito");
+                }
+                return peritos.ToList()[0];
+            }
+            catch(Exception ex)
+            {
+                throw new RCVExceptions("No se ha podido presentar la lista de peritos", ex.Message, ex);
+            }
+        }
+        
+        public PeritoDTO ActualizarPerito(UsuarioPeritoEntity peritoCambios,Guid id_perito)
         {
             
             var data =traerPerito(_context,id_perito);
@@ -162,8 +182,6 @@ namespace perito.Persistence.DAOs.Implementations
             data.email = peritoCambios.email;   
                       
             data.contrasena = peritoCambios.contrasena;
-
-            data.direccion = peritoCambios.direccion;
                         
 
 
@@ -179,7 +197,7 @@ namespace perito.Persistence.DAOs.Implementations
             }).Single();
         }
 
-      */
+      
         
     }
 }

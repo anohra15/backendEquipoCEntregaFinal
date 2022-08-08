@@ -5,10 +5,8 @@ using RabbitMQ.Client.Events;
 
 namespace perito.Persistence.DAOs.MQ
 {
-    public class AnalisisMQ
+    public class AdminMQ
     {
-
-        public string _result;
 
         public void Producer(object message)
         {
@@ -29,7 +27,7 @@ namespace perito.Persistence.DAOs.MQ
 
                 channel.BasicPublish("", config.QueueString, null, body);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw;
             }
@@ -48,20 +46,19 @@ namespace perito.Persistence.DAOs.MQ
                 using (var channel = connection.CreateModel())
                 {
                     channel.QueueDeclare(config.QueueString, durable: true,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null);
 
                     var consumer = new EventingBasicConsumer(channel);
                     consumer.Received += (model, ea) =>
                     {
                         var body = ea.Body.ToArray();
                         var message = Encoding.UTF8.GetString(body);
-                        this._result = message;
                     };
                     channel.BasicConsume(queue: config.QueueString,
-                        autoAck: true,
-                        consumer: consumer);
+                                         autoAck: true,
+                                       consumer: consumer);
 
                 }
             }
@@ -69,11 +66,6 @@ namespace perito.Persistence.DAOs.MQ
             {
                 throw;
             }
-        }
-
-        public string getResult()
-        {
-            return _result;
         }
 
     }

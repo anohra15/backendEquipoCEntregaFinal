@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using perito.BussinesLogic.DTOs;
+using perito.Exceptions;
 using perito.Persistence.DAOs.Interfaces;
 using perito.Persistence.Database;
 using perito.Persistence.Entities;
@@ -45,35 +46,44 @@ namespace perito.Persistence.DAOs.Implementations
             return false;
         }
         
-        public void crearAnalisisEntity(AnalisisDTO P)
+        public bool validarExistenciaAnalisis(AnalisisEntity analisisValidar)
         {
-            this.Analisis.piezas = listapiezas;
-            this.Analisis.id_incidente = P.id_incidente;
-            this.Analisis.id_perito = P.id_perito;
-            this.Analisis.culpable = P.culpable;
-            this.Analisis.CreatedAt = DateTime.Now;
-            this.Analisis.UpdatedAt = null;
-            this.Analisis.CreatedBy = null;
-            this.Analisis.UpdatedBy = null;
+            if (_context.analisis.Any(x => x.id_incidente == analisisValidar.id_incidente && 
+                                           x.id_perito.Equals(analisisValidar.id_perito) 
+                )
+               )
+            {
+                return true;   
+            }
+
+            return false;
         }
         
+       
         
-        public AnalisisDTO CreateAnalisis(AnalisisDTO analisisnew)
+        
+        public AnalisisDTO CreateAnalisis(AnalisisEntity analisisnew)
         {
-            var i = 0;
-            crearAnalisisEntity(analisisnew);
-            var data = _context.analisis.Add(this.Analisis);
-            i = _context.DbContext.SaveChanges();
-            /*var dataRespuesta = _context.analisis.Include(analisis=>analisis).Where(analisis => analisis.Id.Equals(analisisnew.Id))
-                .Select(analisis => new AnalisisDTO
+            if (validarExistenciaAnalisis(analisisnew) == true)
+            {
+                mensajeError = "No se puede crear este analisis porque ya existe";
+                throw new RCVExceptions(mensajeError);
+            }else
+            _context.analisis.Add(analisisnew);
+            _context.DbContext.SaveChanges();
+            var dataRespuesta = _context.analisis.Include(analisis=> analisis.piezas).
+                Where(analisis => analisis.Id.Equals(analisisnew.Id)).
+                Select(analisis => new AnalisisDTO
                 {
-                    id_carro = analisis.id_carro,
                     id_incidente = analisis.id_incidente,
                     id_perito = analisis.id_perito,
-                    piezas = listapiezas,
+                    piezas = analisis.piezas.Select(listapiezas => new PiezaDTO
+                    {
+                        nombre = listapiezas.nombre
+                    }).ToList(),
                     culpable = analisis.culpable
-                });*/
-            return analisisnew;
+                });
+            return dataRespuesta.First();
         }
        
         
@@ -103,13 +113,32 @@ namespace perito.Persistence.DAOs.Implementations
             return "Se Elimino correctamente";
         }
         
-         /* public AnalisisDTO ActualizarAnalisis(AnalisisEntity analisisCambios,Guid id_analisis)
+        public AnalisisDTO getAnalisis(Guid id)
+        {
+            try
+            {
+                var analisis = _context.analisis
+                    .Where(b => b.Id == id)
+                    .Select(p => new AnalisisDTO
+                    {
+                        
+                    });
+                if(analisis == null){
+                    throw new Exception("No existe ese perito");
+                }
+                return analisis.ToList()[0];
+            }
+            catch(Exception ex)
+            {
+                throw new RCVExceptions("No se ha podido presentar la lista de peritos", ex.Message, ex);
+            }
+        }
+        
+         public AnalisisDTO ActualizarAnalisis(AnalisisEntity analisisCambios,Guid id_analisis)
         {
             
                 var data =traerAnalisis(_context,id_analisis);
-               
-                    
-                            data.id_carro = analisisCambios.id_carro;   
+                  
                        
                     
                             data.id_incidente = analisisCambios.id_incidente;
@@ -128,14 +157,16 @@ namespace perito.Persistence.DAOs.Implementations
             
             return _context.analisis.Where(x=>x.Id==data.Id).Select(x=>new AnalisisDTO
             {
-                id_carro = x.id_carro,
                 id_incidente = x.id_incidente,
                 id_perito = x.id_perito,
-                piezas = listapiezas,
+                piezas = x.piezas.Select(listapiezas => new PiezaDTO
+                {
+                    nombre = listapiezas.nombre
+                }).ToList(),
                 culpable = x.culpable
                 
             }).Single();;
         }
-    */      
+        
     }
 }

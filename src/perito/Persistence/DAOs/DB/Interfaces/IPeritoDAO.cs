@@ -7,9 +7,9 @@ namespace perito.Persistence.DAOs.Interfaces
 {
     public interface IPeritoDAO
     {
-        public PeritoDTO CreatePerito(PeritoDTO perito);
+        public PeritoDTO CreatePerito(UsuarioPeritoEntity perito);
         
         public string EliminarPerito(Guid perito);
-        //public PeritoDTO ActualizarPerito(UsuarioPeritoEntity perito, Guid id_perito);
+        public PeritoDTO ActualizarPerito(UsuarioPeritoEntity perito, Guid id_perito);
     }
 }

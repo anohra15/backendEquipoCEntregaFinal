@@ -3,7 +3,7 @@ using perito.Persistence.DAOs.MQ;
 
 namespace perito.Commands.Atomics.Perito{
 
-    public class SendAnalisisToTallerCommand : Command<string>
+    public class SendAnalisisToTallerCommand : Command<Guid>
     {
         private readonly Guid _response;
         
@@ -15,11 +15,11 @@ namespace perito.Commands.Atomics.Perito{
 
             public override void Execute()
             {
-                AnalisisMQ dao = PeritoDAOFactory.createAnalisisMQ();
+                AdminMQ dao = PeritoDAOFactory.createAnalisisMQ();
                 dao.Producer(_response);
             }
 
-            public override string GetResult()
+            public override Guid GetResult()
             {
                 throw new NotImplementedException();
             }

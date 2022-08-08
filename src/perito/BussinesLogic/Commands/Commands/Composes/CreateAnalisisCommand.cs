@@ -1,4 +1,5 @@
 using perito.BussinesLogic.DTOs;
+using perito.BussinesLogic.Mappers;
 using perito.Commands;
 using perito.Commands.Atomics.Perito;
 using perito.Persistence.Entities;
@@ -7,26 +8,27 @@ namespace perito.Commands.Composes
 
 {
 
-    public class CreateAnalisisCommand : Command<string>
+    public class CreateAnalisisCommand : Command<AnalisisDTO>
     {
-        private readonly AnalisisEntity _analisis;
-        private readonly AnalisisDTO _analisis2;
-        private string _result;
+        private AnalisisDTO _result;
+        private readonly AnalisisEntity analisis;
 
         public CreateAnalisisCommand(AnalisisEntity analisis)
         {
-            _analisis = analisis;
+            this.analisis = analisis;
         }
 
         public override void Execute()
         {
-            InsertAnalisisCommand command = CommandFactory.createCreateAnalisisCommand(_analisis2);
+            InsertAnalisisCommand command = CommandFactory.createCreateAnalisisCommand(analisis);
             command.Execute();
-            SendAnalisisToTallerCommand command2 = CommandFactory.createSendPeritoCommand(_analisis.Id);
+            _result = command.GetResult();
+            var messageMQ = AnalisisMapper.MapDtoToEntity(_result);
+            SendAnalisisToTallerCommand command2 = CommandFactory.createSendAnalisisCommand(messageMQ.Id);
             command2.Execute();
         }
 
-        public override string GetResult()
+        public override AnalisisDTO GetResult()
         {
             return _result;
         }

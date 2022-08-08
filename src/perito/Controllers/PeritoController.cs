@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using perito.BussinesLogic.DTOs;
+using perito.BussinesLogic.Mappers;
+using perito.Commands;
+using perito.Commands.Atomics.Perito;
 using perito.Exceptions;
 using perito.Persistence.DAOs.Interfaces;
 using perito.Responses;
@@ -25,26 +28,23 @@ namespace perito.Controllers.Perito
         }
 
         [HttpPost("create/perito")]
-        public ApplicationResponse<PeritoDTO> createPerito([Required][FromBody] PeritoDTO peritoDTO)
+        public string createPerito([Required][FromBody] PeritoDTO peritoDTO){
+        try
         {
-            var response = new ApplicationResponse<PeritoDTO>();
-            try
-            {
-                //response.DataInsert = _peritoDAO.CreatePerito(peritoDTO);
-                response.Message = "se registro exitosamente";
-                response.Data = peritoDTO;
-            }
-            catch (RCVExceptions ex)
-            {
-                response.Success = false;
-                response.Message = ex.Message;
-            }
-
-            return response;
+            var peritoEntidad=PeritoMapper.MapDtoToEntity(peritoDTO);
+            InsertPeritoCommand command=CommandFactory.createCreatePeritoCommand(peritoEntidad);
+            command.Execute();
+            Console.WriteLine(command.GetResult());
+            return "exito";   
+        }
+        catch (RCVExceptions ex)
+        {
+            return ex.Message;
+        }
         }
         
 
-        [HttpPut("actualizar/perito/{id_perito}")]
+        /*[HttpPut("actualizar/perito/{id_perito}")]
         public ApplicationResponse<PeritoDTO> editarPerito([Required][FromBody]PeritoDTO peritoCambios,[Required][FromRoute]Guid id_perito)
         {
             var ressponse = new ApplicationResponse<PeritoDTO>();
@@ -61,7 +61,7 @@ namespace perito.Controllers.Perito
             }
             return ressponse;
         }
-        
+        /*
         [HttpDelete("eliminar/perito/{id_perito}")]
         public ApplicationResponse<PeritoDTO> eliminarPerito([Required][FromRoute]Guid id_perito)
         {
@@ -78,7 +78,27 @@ namespace perito.Controllers.Perito
                 ressponse.Message = ex.Mensaje;
             }
             return ressponse;
-        }
+        }*/
         
+        [HttpPost("Consultar-perito")]
+        public ApplicationResponse<PeritoDTO> getPerito([FromBody] Guid id)
+        {
+            var response = new ApplicationResponse<PeritoDTO>();
+            try
+            {
+                var commandGetPerito = new getPeritoCommand(id);
+                commandGetPerito.Execute();
+                response.Data = commandGetPerito.GetResult();
+            }
+            catch (RCVExceptions ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+                response.Exception = ex.Excepcion.ToString();
+            }
+            return response;
+        }
     }
+        
+    
 }

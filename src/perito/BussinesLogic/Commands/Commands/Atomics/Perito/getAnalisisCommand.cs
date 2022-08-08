@@ -1,25 +1,23 @@
 using perito.BussinesLogic.DTOs;
 using perito.Persistence.DAOs.Implementations;
-using perito.Persistence.DAOs.Interfaces;
-using perito.Persistence.Entities;
 
 namespace perito.Commands.Atomics.Perito
 {
 
-    public class InsertAnalisisCommand : Command<AnalisisDTO>
+    public class getAnalisisCommand : Command<AnalisisDTO>
     {
-        private readonly AnalisisEntity analisis;
+        private readonly Guid _id;
         private AnalisisDTO _result;
 
-        public InsertAnalisisCommand(AnalisisEntity analisis)
+        public getAnalisisCommand(Guid id)
         {
-            this.analisis = analisis;
+            _id = id;
         }
 
         public override void Execute()
         {
             AnalisisDAO dao = PeritoDAOFactory.createAnalisisDAO();
-            _result = dao.CreateAnalisis(analisis);
+            _result = dao.getAnalisis(_id);
         }
 
         public override AnalisisDTO GetResult()
