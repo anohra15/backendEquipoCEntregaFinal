@@ -12,8 +12,8 @@ using administrador.Persistence.Database;
 namespace administrador.Persistence.Migrations
 {
     [DbContext(typeof(RCVDbContext))]
-    [Migration("20220808002607_migracionesAdmin")]
-    partial class migracionesAdmin
+    [Migration("20220808021805_bdAdmin")]
+    partial class bdAdmin
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -8,7 +8,7 @@ namespace administrador
         public RCVDbContext CreateDbContext(string[]? args)
         {
             var builder = new DbContextOptionsBuilder<RCVDbContext>();
-            var connectionString = "Server=PostgreSQL 14;Host=localhost;Database=baseDatosAdmin;Username=postgres;password=admin;";
+            var connectionString = "Server=PostgreSQL 13;Database=bdAdmin;Host=localhost;Username=postgres;Password=123456789102sd";
             builder.UseNpgsql(connectionString);
             return new RCVDbContext(builder.Options);
         }

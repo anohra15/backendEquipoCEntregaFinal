@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace administrador.Persistence.Migrations
 {
-    public partial class migracionesAdmin : Migration
+    public partial class bdAdmin : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

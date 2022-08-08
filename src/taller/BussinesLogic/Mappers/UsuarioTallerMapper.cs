@@ -22,7 +22,7 @@ namespace RCVUcabBackend.BussinesLogic.Mappers{
                 taller=null,
                 Telefonos=TelefonoMapper.MapListDtoToListEntity(dto.telefonos),
                 cotizaciones_taller=null,
-                CreatedAt=Convert.ToDateTime(DateTime.Now.ToString())
+                CreatedAt=null
             };
             return usuarioTaller;
         }

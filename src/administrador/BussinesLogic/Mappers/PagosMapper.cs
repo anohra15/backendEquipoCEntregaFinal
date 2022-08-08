@@ -11,9 +11,9 @@ public class PagosMapper
         {
             AnalisisEntityId = dto.idAnalisis,
             UserEntityId = dto.idTaller,
-            fechaInicio = dto.fechaInicio,
-            fechaFin = dto.fechaFin,
-            costo = dto.costo,
+            fechaInicio =Convert.ToDateTime( dto.fecha_inicio),
+            fechaFin = Convert.ToDateTime(dto.fecha_culminacion),
+            costo = dto.costo_reparacion,
         };
         return entity;
     }

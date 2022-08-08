@@ -26,10 +26,10 @@ namespace RCVUcabBackend.BussinesLogic.Mappers
             {
                 listaMarcaEntity.Add(new MarcaCarroEntity{
                     nombre_marca=marcaDTO.nombre_marca,
-                    CreatedAt=DateTime.Now,
-                    CreatedBy="a",
-                    UpdatedAt=DateTime.Now,
-                    UpdatedBy="a"
+                    CreatedAt=null,
+                    CreatedBy=null,
+                    UpdatedAt=null,
+                    UpdatedBy=null
                 });
             }
             return listaMarcaEntity;
