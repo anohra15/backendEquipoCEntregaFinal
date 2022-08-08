@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using perito.BussinesLogic.DTOs;
+using perito.BussinesLogic.Mappers;
 using perito.Commands;
 using perito.Commands.Atomics.Perito;
+using perito.Commands.Composes;
 using perito.Exceptions;
 using perito.Persistence.DAOs.Interfaces;
 using perito.Responses;
@@ -13,17 +15,14 @@ namespace perito.Controllers.Perito
     [Route("analisis")]
 public class AnalisisController : Controller
 {
-        private readonly IAnalisisDAO _analisisDAO;
         private readonly ILogger<AnalisisController> _logger;
 
-        public AnalisisController(ILogger<AnalisisController> logger, IAnalisisDAO analisisDAO)
+        public AnalisisController(ILogger<AnalisisController> logger)
         {
-            _logger = logger;
-            _analisisDAO = analisisDAO;
-
+            this._logger = logger;
         }
 
-     
+     /*
         
         [HttpDelete("eliminar/analisis/{id_analisis}")]
         public ApplicationResponse<AnalisisDTO> eliminarAnalisis([Required][FromRoute]Guid id_analisis)
@@ -60,28 +59,45 @@ public class AnalisisController : Controller
             }
             return ressponse;
         }
-        
+        */
        
         
         [HttpPost("create/analisis")]
 
-        public ApplicationResponse<AnalisisDTO> createAnalisis([Required][FromBody] AnalisisDTO analisisDTO)
+        public string createAnalisis([Required][FromBody] AnalisisDTO analisisDTO)
+        {
+            try
+            {
+                var analisisEntidad = AnalisisMapper.MapDtoToEntity(analisisDTO);
+               
+               CreateAnalisisCommand command = CommandFactory.CreateCreateAnalisisCommand(analisisEntidad);
+               command.Execute(); 
+               Console.WriteLine(command.GetResult());
+               return "exito";
+            }
+            catch (RCVExceptions ex)
+            {
+                return  ex.Message;
+            }
+
+        }
+        
+        [HttpPost("Consultar-analisis")]
+        public ApplicationResponse<AnalisisDTO> getAnalisis([FromBody] Guid id)
         {
             var response = new ApplicationResponse<AnalisisDTO>();
             try
             {
-               // response.DataInsert = _analisisDAO.CreateAnalisis(analisisDTO);
-               InsertAnalisisCommand command = CommandFactory.createCreateAnalisisCommand(analisisDTO);
-               command.Execute(); 
-               response.Message = "se registro exitosamente";
-               response.Data = analisisDTO;
+                var commandGetAnalisis = new getAnalisisCommand(id);
+                commandGetAnalisis.Execute();
+                response.Data = commandGetAnalisis.GetResult();
             }
             catch (RCVExceptions ex)
             {
                 response.Success = false;
                 response.Message = ex.Message;
+                response.Exception = ex.Excepcion.ToString();
             }
-
             return response;
         }
 

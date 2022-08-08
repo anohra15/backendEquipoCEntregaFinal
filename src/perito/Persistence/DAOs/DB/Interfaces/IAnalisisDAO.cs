@@ -6,7 +6,7 @@ namespace perito.Persistence.DAOs.Interfaces
 {
     public interface IAnalisisDAO
     {
-        public AnalisisDTO CreateAnalisis(AnalisisDTO analisis);
+        public AnalisisDTO CreateAnalisis(AnalisisEntity analisis);
         public string EliminarAnalisis(Guid analisis);
        // public AnalisisDTO ActualizarAnalisis(AnalisisEntity analisis, Guid id_analisis);
     }

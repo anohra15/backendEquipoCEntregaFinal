@@ -28,9 +28,9 @@ public class PeritoDAOFactory
         return new PeritoMQ();
     }
     
-    public static AnalisisMQ createAnalisisMQ()
+    public static AdminMQ createAnalisisMQ()
     {
-        return new AnalisisMQ();
+        return new AdminMQ();
     }
     
 }

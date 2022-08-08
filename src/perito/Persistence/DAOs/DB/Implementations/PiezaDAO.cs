@@ -43,7 +43,7 @@ namespace perito.Persistence.DAOs.Implementations
             return false;
         }
         
-        public bool validarExistenciaPieza(IRCVDbContext context,PiezaDTO piezaValidar)
+        public bool validarExistenciaPieza(IRCVDbContext context,PiezaEntity piezaValidar)
         {
             if (context.piezas.Any(x => x.nombre == piezaValidar.nombre)
                 )
@@ -55,17 +55,7 @@ namespace perito.Persistence.DAOs.Implementations
             return false;
         }
         
-        public void crearPiezaEntity(PiezaDTO T)
-        {
-            
-            this.Pieza.nombre=T.nombre;
-            this.Pieza.CreatedAt=DateTime.Now;
-            this.Pieza.UpdatedAt = null;
-            this.Pieza.CreatedBy = null;
-            this.Pieza.UpdatedBy = null;
-        }
-        
-        public PiezaDTO CreatePieza(PiezaDTO piezanew)
+        public PiezaDTO CreatePieza(PiezaEntity piezanew)
         {
             var i=0;
             try
@@ -85,15 +75,14 @@ namespace perito.Persistence.DAOs.Implementations
                 }
                 else
                 {
-                    crearPiezaEntity(piezanew);
                     var data = _context.piezas.Add(this.Pieza);
                     i = _context.DbContext.SaveChanges();
-                    /*var dataRespuesta = _context.piezas.Include(pieza=>pieza).Where(pieza => pieza.Id.Equals(piezanew.Id))
+                    var dataRespuesta = _context.piezas.Include(pieza=>pieza).Where(pieza => pieza.Id.Equals(piezanew.Id))
                         .Select(pieza => new PiezaDTO
                         {
                             nombre = pieza.nombre,
                         });
-                    return dataRespuesta.First();*/
+                    return dataRespuesta.First();
                 }
             }
             catch (Exception ex)
@@ -101,7 +90,6 @@ namespace perito.Persistence.DAOs.Implementations
                 throw new RCVExceptions(mensajeError);
             }
 
-            return piezanew;
         }
         
         public PiezaEntity traerPieza(IRCVDbContext context,Guid id_pieza)
@@ -130,7 +118,29 @@ namespace perito.Persistence.DAOs.Implementations
             return "Se elimino correctamente";
         }
         
-       /* public PiezaDTO ActualizarPieza(PiezaEntity piezaCambios,Guid id_pieza)
+        public PiezaDTO getPieza(Guid id)
+        {
+            try
+            {
+                var pieza = _context.piezas
+                    .Where(b => b.Id == id)
+                    .Select(p => new PiezaDTO
+                    {
+                        
+                        nombre = p.nombre
+                    });
+                if(pieza == null){
+                    throw new Exception("No existe ese pieza");
+                }
+                return pieza.ToList()[0];
+            }
+            catch(Exception ex)
+            {
+                throw new RCVExceptions("No se ha podido presentar la lista de piezas", ex.Message, ex);
+            }
+        }
+        
+       public PiezaDTO ActualizarPieza(PiezaEntity piezaCambios,Guid id_pieza)
         {
             
             var data =traerPieza(_context,id_pieza);
@@ -142,7 +152,7 @@ namespace perito.Persistence.DAOs.Implementations
                 nombre = x.nombre
                 
             }).Single();
-        }*/
+        }
         
         
     }
