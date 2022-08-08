@@ -30,6 +30,11 @@ namespace administrador
         {
             return new PolizaDAO();
         }
+        
+        public static PagosDAO CreatePagosDAO()
+        {
+            return new PagosDAO();
+        }
 
         public static AdminMQ createAdminMQ()
         {

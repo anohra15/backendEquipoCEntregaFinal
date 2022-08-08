@@ -13,6 +13,7 @@ public class IncidentMapper
             ubicacion = dto.ubicacion,
             descripcion = dto.descripcion,
             PolizaEntityId = dto.PolizaEntityId
+            
         };
         return entity;
     }

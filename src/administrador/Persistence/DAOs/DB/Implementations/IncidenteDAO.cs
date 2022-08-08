@@ -13,8 +13,7 @@ namespace administrador.Persistence.DAOs.Implementations
     {
         private static DesignTimeDbContextFactory desing = new DesignTimeDbContextFactory();
         private IRCVDbContext _context = desing.CreateDbContext(null);
-        public IncidentesEntity incident;
-
+        
         public IncidenteDAO(){}
         
         public IncidenteDAO(IRCVDbContext context)

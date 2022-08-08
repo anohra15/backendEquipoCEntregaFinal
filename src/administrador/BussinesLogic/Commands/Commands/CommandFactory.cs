@@ -5,6 +5,7 @@ using administrador.Commands.Atomics.IncidentesDAO;
 using administrador.Commands.Atomics.MarcaDAO;
 using administrador.Commands.Atomics.MarcasDAO;
 using administrador.Commands.Atomics.PolizasDAO;
+using administrador.Commands.Composes;
 using administrador.Persistence.Entities;
 
 namespace administrador.Commands
@@ -55,6 +56,10 @@ namespace administrador.Commands
         public static sendAccidentCommand createSendAccidentCommand(Guid response)
         {
             return new sendAccidentCommand(response);
+        }
+        public static insertAccidentCommand createInsertAccidentCommand(IncidentesEntity incident)
+        {
+            return new insertAccidentCommand(incident);
         }
         //Marcas
         public static createMarcaCommand createCreateMarcaCommand(string marca)
