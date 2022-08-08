@@ -32,6 +32,28 @@ namespace perito.Commands
         {
             return new CreateAnalisisCommand(response);
         }
+
+        public static DeleteAnalisisCommand CreateDeleteAnalisisCommand(Guid response)
+        {
+            return new DeleteAnalisisCommand(response);
+        }
+
+        public static ActualizarAnalisisCommand createActualizarAnalisisCommand(AnalisisEntity response,
+            Guid id_analisis)
+        {
+            return new ActualizarAnalisisCommand(response, id_analisis);
+        }
+        
+        public static DeletePeritoCommand CreateDeletePeritoCommand(Guid response)
+        {
+            return new DeletePeritoCommand(response);
+        }
+
+        public static ActualizarPeritoCommand CreateActualizarPeritoCommand(UsuarioPeritoEntity response,
+            Guid id_perito)
+        {
+            return new ActualizarPeritoCommand(response, id_perito);
+        }
         
 
         /*public static getAnalisisCommand createGetAnalisisCommand(Guid respnse)

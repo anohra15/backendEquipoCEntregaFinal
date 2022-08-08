@@ -22,44 +22,45 @@ public class AnalisisController : Controller
             this._logger = logger;
         }
 
-     /*
+     
         
         [HttpDelete("eliminar/analisis/{id_analisis}")]
-        public ApplicationResponse<AnalisisDTO> eliminarAnalisis([Required][FromRoute]Guid id_analisis)
+        public string  eliminarAnalisis([Required][FromRoute]Guid id_analisis)
         {
-            var ressponse = new ApplicationResponse<AnalisisDTO>();
             try
             {
-               // ressponse.DataInsert = _analisisDAO.EliminarAnalisis(id_analisis);
-                ressponse.Message = "se elimino exitosamente el analisis de id="+id_analisis;
-                ressponse.Data = null;
+                DeleteAnalisisCommand command=CommandFactory.CreateDeleteAnalisisCommand(id_analisis);
+                command.Execute();
+                return command.GetResult();   
             }
             catch (RCVExceptions ex)
             {
-                ressponse.Success = false;
-                ressponse.Message = ex.Mensaje;
+                return ex.Message;
             }
-            return ressponse;
         }
         
+       
+        
+        
+
+        
         [HttpPut("actualizar/analisis/{id_analisis}")]
-        public ApplicationResponse<AnalisisDTO> editarAnalisis([Required][FromBody]AnalisisDTO analisisCambios,[Required][FromRoute]Guid id_analisis)
+        public AnalisisDTO editarAnalisis([Required][FromBody]AnalisisDTO analisisCambios,[Required][FromRoute]Guid id_analisis)
         {
-            var ressponse = new ApplicationResponse<AnalisisDTO>();
             try
             {
-               // ressponse.DataInsert = _analisisDAO.ActualizarAnalisis(analisisCambios,id_analisis);
-                ressponse.Message = "se edito exitosamente el analisis de id="+id_analisis;
-                ressponse.Data = null;
+                var analisisEntidad = AnalisisMapper.MapDtoToEntity(analisisCambios);
+                ActualizarAnalisisCommand command =
+                    CommandFactory.createActualizarAnalisisCommand(analisisEntidad, id_analisis);
+                command.Execute();
+                return command.GetResult();
             }
-            catch (RCVExceptions ex)
+            catch (Exception ex)
             {
-                ressponse.Success = false;
-                ressponse.Message = ex.Mensaje;
+                throw ex.InnerException;
             }
-            return ressponse;
         }
-        */
+        
        
         
         [HttpPost("create/analisis")]

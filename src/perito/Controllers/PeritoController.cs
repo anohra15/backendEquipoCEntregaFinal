@@ -44,41 +44,40 @@ namespace perito.Controllers.Perito
         }
         
 
-        /*[HttpPut("actualizar/perito/{id_perito}")]
-        public ApplicationResponse<PeritoDTO> editarPerito([Required][FromBody]PeritoDTO peritoCambios,[Required][FromRoute]Guid id_perito)
+        [HttpPut("actualizar/perito/{id_perito}")]
+        public PeritoDTO editarPerito([Required][FromBody]PeritoDTO peritoCambios,[Required][FromRoute]Guid id_perito)
         {
-            var ressponse = new ApplicationResponse<PeritoDTO>();
             try
             {
-               // ressponse.DataInsert = _peritoDAO.ActualizarPerito(peritoCambios,id_perito);
-                ressponse.Message = "se edito exitosamente el perito de id="+id_perito;
-                ressponse.Data = null;
+                var peritoEntidad = PeritoMapper.MapDtoToEntity(peritoCambios);
+                ActualizarPeritoCommand command = CommandFactory.CreateActualizarPeritoCommand(peritoEntidad, id_perito);
+                command.Execute();
+                return command.GetResult();
             }
-            catch (RCVExceptions ex)
+            catch (Exception ex)
             {
-                ressponse.Success = false;
-                ressponse.Message = ex.Mensaje;
+                throw ex.InnerException;
             }
-            return ressponse;
         }
-        /*
+        
+        
+        
         [HttpDelete("eliminar/perito/{id_perito}")]
-        public ApplicationResponse<PeritoDTO> eliminarPerito([Required][FromRoute]Guid id_perito)
+        public string eliminarPerito([Required][FromRoute]Guid id_perito)
         {
-            var ressponse = new ApplicationResponse<PeritoDTO>();
             try
             {
-               // ressponse.DataInsert = _peritoDAO.EliminarPerito(id_perito);
-                ressponse.Message = "se elimino exitosamente el perito de id="+id_perito;
-                ressponse.Data = null;
+                DeletePeritoCommand command=CommandFactory.CreateDeletePeritoCommand(id_perito);
+                command.Execute();
+                return command.GetResult();   
             }
             catch (RCVExceptions ex)
             {
-                ressponse.Success = false;
-                ressponse.Message = ex.Mensaje;
+                return ex.Message;
             }
-            return ressponse;
-        }*/
+        }
+        
+        
         
         [HttpPost("Consultar-perito")]
         public ApplicationResponse<PeritoDTO> getPerito([FromBody] Guid id)
