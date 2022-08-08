@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using administrador.BussinesLogic.DTOs;
+﻿using administrador.BussinesLogic.DTOs;
 using administrador.BussinesLogic.Mappers;
 using administrador.Commands;
 using administrador.Commands.Atomics.IncidentesDAO;
+using administrador.Commands.Composes;
 using administrador.Exceptions;
 using administrador.Persistence.DAOs.Interfaces;
 using administrador.Responses;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace administrador.Controllers.Administrador
 {
@@ -19,9 +17,8 @@ namespace administrador.Controllers.Administrador
         private readonly IIncidenteDAO _incidenteDAO;
         private readonly ILogger<IncidenteController> _logger;
 
-        public IncidenteController(ILogger<IncidenteController> logger, IIncidenteDAO incidenteDAO)
+        public IncidenteController(ILogger<IncidenteController> logger)
         {
-            _incidenteDAO = incidenteDAO;
             _logger = logger;
         }
         
@@ -32,7 +29,7 @@ namespace administrador.Controllers.Administrador
             try
             {
                 var entityAcident = IncidentMapper.mapDtoToEntity(incidente);
-                createAccidentCommand commandAddIncident = CommandFactory.createCreateAccidentCommand(entityAcident);
+                insertAccidentCommand commandAddIncident = CommandFactory.createInsertAccidentCommand(entityAcident);
                 commandAddIncident.Execute();
                 response.Data = commandAddIncident.GetResult();
             }

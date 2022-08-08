@@ -47,6 +47,11 @@ namespace administrador.Persistence.Database
                 .HasColumnType("uuid")
                 .HasDefaultValueSql("uuid_generate_v4()")    // Use 
                 .IsRequired();
+            modelBuilder.Entity<PagosEntity>()
+                .Property(p => p.Id)
+                .HasColumnType("uuid")
+                .HasDefaultValueSql("uuid_generate_v4()")    // Use 
+                .IsRequired();
         }
         
         public Task<int> SaveChangesAsync()
@@ -59,5 +64,6 @@ namespace administrador.Persistence.Database
         public virtual DbSet<PolizaEntity> poliza { get; set; }
         public virtual DbSet<UsuariosEntity> user { get; set; }
         public virtual DbSet<MarcaEntity> marca { get; set; }
+        public virtual DbSet<PagosEntity> pagos { get; set; }
     }
 }

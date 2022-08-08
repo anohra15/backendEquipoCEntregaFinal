@@ -36,6 +36,11 @@ namespace administrador.Persistence.Database
         {
             get; set;
         }
+        
+        DbSet<PagosEntity> pagos
+        {
+            get; set;
+        }
         Task<int> SaveChangesAsync();
     }
 }     

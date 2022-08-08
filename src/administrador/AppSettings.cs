@@ -17,7 +17,7 @@ namespace administrador
             var root = configurationBuilder.Build();
             _dbconnectionString = root.GetSection("App").GetSection("DataBaseConnection").Value;
             _mqconnectionString = root.GetSection("App").GetSection("MQConnection").Value;
-            _queueString = root.GetSection("App").GetSection("Queue").Value;
+            _queueString = root.GetSection("App").GetSection("QueueAdmin").Value;
         }
         public string DBConnectionString
         {

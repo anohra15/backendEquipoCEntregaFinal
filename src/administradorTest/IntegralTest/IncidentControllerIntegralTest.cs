@@ -21,7 +21,7 @@ public class IncidentControllerIntegralTest
     {
         _loggerMock = new Mock<ILogger<IncidenteController>>();
         _serviceMock = new Mock<IIncidenteDAO>();
-        _controller = new IncidenteController(_loggerMock.Object, _serviceMock.Object);
+        _controller = new IncidenteController(_loggerMock.Object);
         _controller.ControllerContext = new ControllerContext();
         _controller.ControllerContext.HttpContext = new DefaultHttpContext();
         _controller.ControllerContext.ActionDescriptor = new ControllerActionDescriptor();

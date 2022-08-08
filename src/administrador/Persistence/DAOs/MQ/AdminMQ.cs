@@ -32,8 +32,9 @@ namespace administrador.Persistence.DAOs.MQ
             }
         }
 
-        public void Consumer()
+        public string Consumer()
         {
+            string response = "";
             try
             {
                 AppSettings config = new AppSettings();
@@ -54,6 +55,7 @@ namespace administrador.Persistence.DAOs.MQ
                     {
                         var body = ea.Body.ToArray();
                         var message = Encoding.UTF8.GetString(body);
+                        response = message;
                     };
                     channel.BasicConsume(queue: config.QueueString,
                                          autoAck: true,
@@ -65,6 +67,7 @@ namespace administrador.Persistence.DAOs.MQ
             {
                 throw;
             }
+            return response;
         }
     }
 }
